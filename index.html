@@ -108,27 +108,80 @@
         const PASSWORD = "uniquePassword123"; // Replace with your unique password
 
         // Authentication Function
-        function authenticate() {
+        async function authenticate() {
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
 
-            if (password === PASSWORD) {
-                document.getElementById("auth").style.display = "none"; // Hide auth
-                document.getElementById("popup").style.display = "flex"; // Show terms pop-up
-            } else {
-                alert("Incorrect password. Please try again.");
+            // Check if email is entered
+            if (!email) {
+                alert("Please enter your email.");
+                return;
+            }
+
+            // Validate email through Zapier webhook
+            try {
+                const response = await fetch('https://hooks.zapier.com/hooks/catch/10566502/2smj4lm/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email })
+                });
+
+                const result = await response.json();
+
+                if (!result.isValid) {
+                    alert(result.message); // Show error if email is not found
+                    return;
+                }
+
+                // Validate password
+                if (password === PASSWORD) {
+                    alert(result.message); // Show success message
+                    document.getElementById("auth").style.display = "none"; // Hide auth
+                    document.getElementById("popup").style.display = "flex"; // Show terms pop-up
+                } else {
+                    alert("Incorrect password. Please try again.");
+                }
+            } catch (error) {
+                console.error("Error validating email:", error);
+                alert("Something went wrong. Please try again.");
             }
         }
 
         // Agree to Terms Function
-        function agreeToTerms() {
+        async function agreeToTerms() {
             const fullName = document.getElementById("full-name").value;
+            const email = document.getElementById("email").value; // Already collected during authentication
+            const timestamp = new Date().toISOString(); // Record the agreement time
+            const termsText = `
+                Confidentiality and Non-Circumvention Agreement:
+                1. Maintain confidentiality of all disclosed information.
+                2. Refrain from circumventing by contacting parties directly.
+                3. Penalties include $50,000 or 15% of the purchase price for any breach, plus legal costs.
+            `; // Full terms and conditions
 
-            if (fullName.trim() !== "") {
-                document.getElementById("popup").style.display = "none"; // Hide pop-up
+            if (!fullName.trim()) {
+                alert("Please enter your full name to agree to the terms.");
+                return;
+            }
+
+            try {
+                // Send agreement details to Zapier
+                await fetch('https://hooks.zapier.com/hooks/catch/10566502/2smj4lm/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, fullName, timestamp, termsText })
+                });
+
+                alert("Thank you! Your agreement has been recorded.");
+                document.getElementById("popup").style.display = "none"; // Hide the terms pop-up
                 document.getElementById("canva-container").style.display = "block"; // Show Canva design
-            } else {
-                alert("Please enter your full name.");
+            } catch (error) {
+                console.error("Error saving agreement:", error);
+                alert("Something went wrong. Please try again.");
             }
         }
     </script>
