@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Design Access</title>
+    <title>Confidentiality Agreement</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Montserrat', sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
@@ -50,10 +51,11 @@
             font-size: 16px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            font-family: 'Montserrat', sans-serif;
         }
 
         button {
-            background-color: #007BFF;
+            background-color: #832e6c;
             color: white;
             cursor: pointer;
         }
@@ -79,20 +81,31 @@
     <!-- Terms and Conditions Pop-Up -->
     <div id="popup">
         <div id="popup-content">
-            <h2>Terms and Conditions</h2>
-            <p>You must agree to the terms and conditions to access the content.</p>
+            <h2>Confidentiality and Non-Circumvention Agreement</h2>
+            <p>
+                By accessing this content, you agree to:
+                <ul style="text-align: left; margin: 0 auto; width: 90%; font-size: 14px;">
+                    <li>Maintain confidentiality of disclosed information.</li>
+                    <li>Refrain from circumventing by contacting parties directly.</li>
+                    <li>Pay penalties of $50,000 or 15% of the purchase price for any breach, along with legal costs.</li>
+                </ul>
+                By clicking "I Agree," you accept these terms.
+            </p>
             <input type="text" id="full-name" placeholder="Enter your full name" required />
             <button onclick="agreeToTerms()">I Agree</button>
         </div>
     </div>
 
     <!-- Canva Design -->
-    <iframe id="canva-embed"></iframe>
+    <div style="position: relative; width: 100%; height: 0; padding-top: 56.2225%; padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden; border-radius: 8px; will-change: transform; display:none;" id="canva-container">
+        <iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;" 
+            src="https://www.canva.com/design/DAGXf0iolE0/dpNj77nGu0f07iK-p07tKQ/view?embed" allowfullscreen="allowfullscreen" allow="fullscreen">
+        </iframe>
+    </div>
 
     <script>
-        // Configuration: Set the password and Canva embed link
+        // Configuration: Set the password
         const PASSWORD = "uniquePassword123"; // Replace with your unique password
-        const CANVA_EMBED_LINK = "https://www.canva.com/design/XXXX/view?embed"; // Replace with Canva design link
 
         // Authentication Function
         function authenticate() {
@@ -113,8 +126,7 @@
 
             if (fullName.trim() !== "") {
                 document.getElementById("popup").style.display = "none"; // Hide pop-up
-                document.getElementById("canva-embed").style.display = "block"; // Show Canva design
-                document.getElementById("canva-embed").src = CANVA_EMBED_LINK; // Load Canva design
+                document.getElementById("canva-container").style.display = "block"; // Show Canva design
             } else {
                 alert("Please enter your full name.");
             }
@@ -122,3 +134,4 @@
     </script>
 </body>
 </html>
+
