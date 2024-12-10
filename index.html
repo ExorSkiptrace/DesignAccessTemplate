@@ -152,7 +152,7 @@
         // Agree to Terms Function
         async function agreeToTerms() {
             const fullName = document.getElementById("full-name").value;
-            const email = document.getElementById("email").value; // Email already collected
+            const email = document.getElementById("email").value; // Already collected during authentication
             const timestamp = new Date().toISOString(); // Record agreement time
             const termsText = `
                 Confidentiality and Non-Circumvention Agreement:
@@ -181,14 +181,15 @@
                 });
 
                 alert("Thank you! Your agreement has been recorded.");
-                document.getElementById("popup").style.display = "none"; // Hide the pop-up
+                document.getElementById("popup").style.display = "none"; // Hide the terms pop-up
                 document.getElementById("canva-container").style.display = "block"; // Show Canva design
             } catch (error) {
                 console.error("Error saving agreement:", error);
                 alert("Something went wrong. Please try again.");
             }
-}
+        }
     </script>
 </body>
 </html>
+
 
