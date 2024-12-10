@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Access</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f8f8f8;
+        }
+
+        #auth, #popup, iframe {
+            display: none;
+        }
+
+        #auth, #popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        #auth-content, #popup-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        input, button {
+            width: 80%;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100vh;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Authentication Layer -->
+    <div id="auth">
+        <div id="auth-content">
+            <h2>Enter Password</h2>
+            <input type="email" id="email" placeholder="Enter your email" required />
+            <input type="password" id="password" placeholder="Enter the password" required />
+            <button onclick="authenticate()">Submit</button>
+        </div>
+    </div>
+
+    <!-- Terms and Conditions Pop-Up -->
+    <div id="popup">
+        <div id="popup-content">
+            <h2>Terms and Conditions</h2>
+            <p>You must agree to the terms and conditions to access the content.</p>
+            <input type="text" id="full-name" placeholder="Enter your full name" required />
+            <button onclick="agreeToTerms()">I Agree</button>
+        </div>
+    </div>
+
+    <!-- Canva Design -->
+    <iframe id="canva-embed"></iframe>
+
+    <script>
+        // Configuration: Set the password and Canva embed link
+        const PASSWORD = "uniquePassword123"; // Replace with your unique password
+        const CANVA_EMBED_LINK = "https://www.canva.com/design/XXXX/view?embed"; // Replace with Canva design link
+
+        // Authentication Function
+        function authenticate() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            if (password === PASSWORD) {
+                document.getElementById("auth").style.display = "none"; // Hide auth
+                document.getElementById("popup").style.display = "flex"; // Show terms pop-up
+            } else {
+                alert("Incorrect password. Please try again.");
+            }
+        }
+
+        // Agree to Terms Function
+        function agreeToTerms() {
+            const fullName = document.getElementById("full-name").value;
+
+            if (fullName.trim() !== "") {
+                document.getElementById("popup").style.display = "none"; // Hide pop-up
+                document.getElementById("canva-embed").style.display = "block"; // Show Canva design
+                document.getElementById("canva-embed").src = CANVA_EMBED_LINK; // Load Canva design
+            } else {
+                alert("Please enter your full name.");
+            }
+        }
+    </script>
+</body>
+</html>
