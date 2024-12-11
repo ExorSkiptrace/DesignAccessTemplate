@@ -122,39 +122,35 @@
             }
 
             try {
-                // Validate email through Zapier webhook
-                const response = await fetch('https://hooks.zapier.com/hooks/catch/10566502/2smj4lm/', {
+                // Send raw request to Zapier raw hook
+                const response = await fetch('https://hooks.zapier.com/hooks/catch/raw/10566502/2smj4lm/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Custom-Header': 'AuthenticationTest', // Example custom header
                     },
-                    body: JSON.stringify({ email }),
+                    body: JSON.stringify({ email, password }),
                 });
 
-                if (!response.ok) {
-                    throw new Error("Failed to contact the server. Please try again.");
-                }
+            if (!response.ok) {
+                throw new Error("Failed to contact the server. Please try again.");
+             }
 
-                const result = await response.json();
+            const result = await response.json();
 
-                // Check response from Zapier
-                if (result.isValid) {
-                    // Validate password
-                    if (password === PASSWORD) {
-                        alert(result.message || "Authentication successful!");
-                        document.getElementById("auth").style.display = "none"; // Hide auth
-                        document.getElementById("popup").style.display = "flex"; // Show terms pop-up
-                    } else {
-                        alert("Incorrect password. Please try again.");
-                    }
-                } else {
-                    alert(result.message || "Invalid email. Please try again.");
-                }
-            } catch (error) {
-                console.error("Error during authentication:", error);
-                alert("Something went wrong. Please try again later.");
+            // Handle the response
+            if (result.isValid) {
+                alert("Authentication successful!");
+                document.getElementById("auth").style.display = "none"; // Hide auth
+                document.getElementById("popup").style.display = "flex"; // Show terms pop-up
+            } else {
+                alert("Invalid email or password. Please try again.");
             }
+        } catch (error) {
+            console.error("Error during authentication:", error);
+            alert("Something went wrong. Please try again later.");
         }
+    }
 
         // Agree to Terms Function
         async function agreeToTerms() {
