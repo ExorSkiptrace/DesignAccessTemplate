@@ -118,7 +118,7 @@
 
             try {
                 // Validate email through Zapier webhook
-                const response = await fetch('https://hooks.zapier.com/hooks/catch/10566502/2smj4lm/', {
+                const response = await fetch('https://cors-anywhere.herokuapp.com/https://hooks.zapier.com/hooks/catch/10566502/2smj4lm/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
