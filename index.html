@@ -150,36 +150,30 @@
 
         // Agree to Terms Function
         async function agreeToTerms() {
-            const email = document.getElementById("email").value; // Already collected during authentication
-            const timestamp = new Date().toISOString(); // Record agreement time
-            const termsText = `
-                Confidentiality and Non-Circumvention Agreement:
-                1. Maintain confidentiality of all disclosed information.
-                2. Refrain from circumventing by contacting parties directly.
-                3. Penalties include $50,000 or 15% of the purchase price for any breach, plus legal costs.
-            `; // Full terms and conditions
+            const fullName = document.getElementById("full-name").value;
+            const email = document.getElementById("email").value;
+            const timestamp = new Date().toISOString();
 
-            try {
-                const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-                const zapierWebhook = "https://hooks.zapier.com/hooks/catch/10566502/2smj4lm/";
-                const url = proxyUrl + zapierWebhook;
-
-                // Send data to Zapier via the proxy
-                await fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ email, timestamp, termsText })
-                });
-
-                alert("Thank you! Your agreement has been recorded.");
-                document.getElementById("popup").style.display = "none"; // Hide the terms pop-up
-                document.getElementById("canva-container").style.display = "block"; // Show Canva design
-            } catch (error) {
-                console.error("Error saving agreement:", error);
-                alert("Something went wrong. Please try again.");
+            if (fullName.trim() === "") {
+                alert("Please enter your full name.");
+                return;
             }
+
+            // Log the agreement
+            await fetch('https://your-backend-api.com/log-agreement', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, fullName, timestamp })
+            });
+
+            document.getElementById("popup").style.display = "none"; // Hide pop-up
+            document.getElementById("canva-container").style.display = "block"; // Show Canva design
+        }
+
+}
+
         }
     </script>
 </body>
